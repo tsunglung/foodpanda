@@ -1,0 +1,67 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "foodpanda is already configured"
+        },
+        "error": {
+            "connection_error": "Connecting to foodpanda with error.",
+            "cannot_connect": "Can't connect to foodpanda.",
+            "unknown": "Unexpected error"
+        },
+        "flow_title": "foodpanda: {name}",
+        "step": {
+            "user": {
+              "title": "Select Action",
+              "data": {
+                "action": "Action"
+              }
+            },
+            "cloud": {
+                "title": "Add foodpanda Cloud Account",
+                "data": {
+                    "username": "Username",
+                    "password": "Password",
+                    "localcode": "Local Code",
+                    "x_device": "x_device"
+                },
+                "description": "Please enter connection settings of your foodpanda."
+            },
+            "token": {
+                "title": "Add foodpanda by Tokens",
+                "data": {
+                    "username": "Username",
+                    "token": "Token",
+                    "device_token": "Device Token",
+                    "refresh_token": "Refresh Token",
+                    "localcode": "Local Code",
+                    "x_device": "x_device"
+              },
+              "description": "You have to manually obtain foodpanda [tokens](https://github.com/tsunglung/blob/master/docs/obtain_token.md)."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "cloud": {
+                "title": "foodpanda",
+                "data": {
+                    "username": "Username",
+                    "password": "Password",
+                    "localcode": "Local Code",
+                    "x_device": "x_device"
+                }
+            },
+            "token": {
+                "title": "foodpanda",
+                "data": {
+                    "username": "Username",
+                    "token": "Token",
+                    "device_token": "Device Token",
+                    "refresh_token": "Refresh Token",
+                    "localcode": "Local Code",
+                    "x_device": "x_device"
+                }
+            }
+        }
+    }
+}

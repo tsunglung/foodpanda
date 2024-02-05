@@ -1,0 +1,69 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "foodpanda \u5df2\u7d93\u8a2d\u5b9a"
+        },
+        "error": {
+            "connection_error": "\u9023\u63a5 foodpanda \u6642\u767c\u751f\u932f\u8aa4",
+            "cannot_connect": "\u7121\u6cd5\u9023\u63a5 foodpanda",
+            "unknown": "\u672a\u77e5\u9810\u671f\u7684\u932f\u8aa4"
+        },
+        "flow_title": "foodpanda: {name}",
+        "step": {
+            "user": {
+              "title": "\u9078\u64c7\u52d5\u4f5c",
+              "data": {
+                "action": "\u52d5\u4f5c",
+                "cloud": "\u65b0\u589e foodpanda \u96f2\u5e33\u865f",
+                "token": "\u900f\u904e Tokens \u65b0\u589e foodpanda"
+              }
+            },
+            "cloud": {
+                "title": "\u65b0\u589e foodpanda \u96f2\u5e33\u865f",
+                "data": {
+                    "username": "\u5e33\u865f",
+                    "password": "\u5bc6\u78bc",
+                    "localcode": "\u570b\u5bb6/\u5730\u5340\u78bc",
+                    "x_device": "x_device"
+                },
+                "description": "\u8acb\u8f38\u5165\u4f60\u7684 foodpanda \u9023\u7dda\u8cc7\u8a0a."
+            },
+            "token": {
+                "title": "\u900f\u904e Tokens \u65b0\u589e foodpanda",
+                "data": {
+                    "username": "\u5e33\u865f",
+                    "token": "Token",
+                    "device_token": "Device Token",
+                    "refresh_token": "Refresh Token",
+                    "localcode": "\u570b\u5bb6/\u5730\u5340\u78bc",
+                    "x_device": "x_device"
+              },
+              "description": "\u4f60\u5fc5\u9808\u624b\u52d5\u53d6\u5f97 [tokens](https://github.com/tsunglung/blob/master/docs/obtain_token.md)."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "cloud": {
+                "title": "foodpanda",
+                "data": {
+                    "username": "\u5e33\u865f",
+                    "password": "\u5bc6\u78bc",
+                    "localcode": "\u570b\u5bb6/\u5730\u5340\u78bc",
+                    "x_device": "x_device"
+                }
+            },
+            "token": {
+                "title": "foodpanda",
+                "data": {
+                    "username": "\u5e33\u865f",
+                    "token": "Token",
+                    "device_token": "Device Token",
+                    "refresh_token": "Refresh Token",
+                    "localcode": "\u570b\u5bb6/\u5730\u5340\u78bc",
+                    "x_device": "x_device"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "domain": "foodpanda",
+    "name": "foodpanda",
+    "version": "0.1.0",
+    "documentation": "https://github.com/tsunglung/foodpanda",
+    "issue_tracker": "https://github.com/tsunglung/foodpanda/issues",
+    "config_flow": true,
+    "dependencies": [],
+    "codeowners": [
+        "@tsunglung"
+    ],
+    "requirements": [ "requests" ]
+}
