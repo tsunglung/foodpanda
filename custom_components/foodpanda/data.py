@@ -434,7 +434,7 @@ class foodpandaData():
             data = res.get('data', {})
             if len(data) >= 1:
                 self.orders[self._username][FOODPANDA_ORDERS].append(data)
-            self.orders[self._username][ATTR_HTTPS_RESULT] = HTTPStatus.NOT_FOUND
+            self.orders[self._username][ATTR_HTTPS_RESULT] = HTTPStatus.OK
             self.expired = False
         elif response.status == HTTPStatus.NOT_FOUND:
             self.orders[self._username][ATTR_HTTPS_RESULT] = HTTPStatus.NOT_FOUND
@@ -481,9 +481,10 @@ class foodpandaData():
 
             if len(data) >= 1:
                 self.new_order = True
+                self.ordered = True
                 self.orders[self._username][FOODPANDA_ORDERS] = []
                 for order in data:
-                    await self.async_order_tracking(order['order_code'])      
+                    await self.async_order_tracking(order['order_code'])
             else:
                 self.new_order = False
                 self.ordered = False

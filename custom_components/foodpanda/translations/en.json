@@ -36,7 +36,7 @@
                     "localcode": "Local Code",
                     "x_device": "x_device"
               },
-              "description": "You have to manually obtain foodpanda [tokens](https://github.com/tsunglung/blob/master/docs/obtain_token.md)."
+              "description": "You have to manually obtain foodpanda [tokens](https://github.com/tsunglung/foodpanda/blob/master/docs/obtain_token.md)."
             }
         }
     },

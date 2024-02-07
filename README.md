@@ -27,7 +27,7 @@ Then restart HA.
 3. All fields are Required.
 
 # Notice
-Only suuport the account login, the login of Fackbook and Google are not supported.
+You need login foodpanda in Web Browser once. Then login in foodpanda integration of HA.
 
 Buy me a Coffee
 
