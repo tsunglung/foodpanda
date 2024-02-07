@@ -100,8 +100,8 @@ class foodpandaSensor(SensorEntity):
     def extra_state_attributes(self):
         """Return extra attributes."""
         self._attributes[ATTR_ATTRIBUTION] = ATTRIBUTION
-        for i in ATTR_LIST:
-            self._attributes[i] = self._attr_value[i]
+        for k, _ in self._attr_value.items():
+            self._attributes[k] = self._attr_value[k]
         return self._attributes
 
     @property
@@ -134,29 +134,54 @@ class foodpandaSensor(SensorEntity):
             if self._username in self._data.orders:
                 orders = self._data.orders[self._username].get(FOODPANDA_ORDERS, [])
                 self._state = len(orders)
+                index = 0
                 if len(orders) >= 1:
-                    orders = self._data.orders[self._username][FOODPANDA_ORDERS]
                     for order in orders:
-                        self._attr_value[ATTR_ETA] = self._attr_value[ATTR_ETA] + "; " + order['eta']
-                        self._attr_value[ATTR_TITLE_SUMMARY] = self._attr_value[ATTR_TITLE_SUMMARY] + "; " + data['current_status']['message']
-                        ss = "{} {} {}".format(
-                            data['delivery_time_range']['label'], data['delivery_time_range']['suffix'], data['delivery_time_range']['range'])
-                        self._attr_value[ATTR_SUBTITLE_SUMMARY] = self._attr_value[ATTR_SUBTITLE_SUMMARY] + "; " + ss
-                        self._attr_value[ATTR_COURIER_DESCRIPTION] = self._attr_value[ATTR_COURIER_DESCRIPTION] + "; " + data['courier']['vehicle_type']
-                        self._attr_value[ATTR_RESTAURANT_NAME] = self._attr_value[ATTR_RESTAURANT_NAME] + "; " + data['vendor']['name']
-                        name = "{} {}".format(
-                            data['courier']['name'], data['courier']['id']
-                        )
-                        self._attr_value[ATTR_COURIER_NAME] = self._attr_value[ATTR_COURIER_NAME] + "; " + name
-                        self._attr_value[ATTR_COURIER_PHONE] = self._attr_value[ATTR_COURIER_PHONE] + "; " + data['courier']['phone']
-                        self._attr_value[ATTR_LATITUDE] = self._attr_value[ATTR_LATITUDE] + "; " + data['courier']['latitude']
-                        self._attr_value[ATTR_LONGITUDE] = self._attr_value[ATTR_LONGITUDE] + "; " + data['courier']['longitude']
+                        if index == 0:
+                            if "eta" in order:
+                                self._attr_value[ATTR_ETA] = order['eta']
+                            if "current_status" in order:
+                                self._attr_value[ATTR_TITLE_SUMMARY] = order['current_status']['message']
+                            if "delivery_time_range" in order:
+                                ss = "{} {} {}".format(
+                                    order['delivery_time_range']['label'], order['delivery_time_range']['range'], order['delivery_time_range']['suffix'])
+                                self._attr_value[ATTR_SUBTITLE_SUMMARY] = ss
+                            if "vendor" in order:
+                                self._attr_value[ATTR_RESTAURANT_NAME] = order['vendor']['name']
+                            if order.get('courier', {}) != None:
+                                self._attr_value[ATTR_COURIER_DESCRIPTION] = order['courier']['vehicle_type']
+                                name = "{} ({})".format(
+                                    order['courier']['name'], order['courier']['id']
+                                )
+                                self._attr_value[ATTR_COURIER_NAME] = name
+                                self._attr_value[ATTR_COURIER_PHONE] = order['courier']['phone']
+                                self._attr_value[ATTR_LATITUDE] = order['courier']['latitude']
+                                self._attr_value[ATTR_LONGITUDE] = order['courier']['longitude']
+                        if index >= 1:
+                            if "eta" in order:
+                                self._attr_value[f"{ATTR_ETA}_{index + 1}"] = order['eta']
+                            if "current_status" in order:
+                                self._attr_value[f"{ATTR_TITLE_SUMMARY}_{index + 1}"] = order['current_status']['message']
+                            if "delivery_time_range" in order:
+                                ss = "{} {} {}".format(
+                                    order['delivery_time_range']['label'], order['delivery_time_range']['range'], order['delivery_time_rang']['suffix'])
+                                self._attr_value[f"{ATTR_SUBTITLE_SUMMARY}_{index + 1}"] = ss
+                            if "vendor" in order:
+                                self._attr_value[f"{ATTR_RESTAURANT_NAME}_{index + 1}"] = order['vendor']['name']
+                            if order.get('courier', {}) != None:
+                                self._attr_value[f"{ATTR_COURIER_DESCRIPTION}_{index + 1}"] = order['courier']['vehicle_type']
+                                name = "{} ({})".format(
+                                    order['courier']['name'], order['courier']['id']
+                                )
+                                self._attr_value[f"{ATTR_COURIER_NAME}_{index + 1}"] =  name
+                                self._attr_value[f"{ATTR_COURIER_PHONE}_{index + 1}"] = order['courier']['phone']
+                                self._attr_value[f"{ATTR_LATITUDE}_{index + 1}"] = order['courier']['latitude']
+                                self._attr_value[f"{ATTR_LONGITUDE}_{index + 1}"] = order['courier']['longitude']
+                        index = index + 1
 
-        except:
+        except Exception as e:
+            _LOGGER.error(f"paring orders occured exception {e}")
             self._state = 0
-
-        for i in ATTR_LIST:
-            self._attr_value[i] = self._attr_value[i].lstrip(';').lstrip()
 
         self._attr_value[ATTR_HTTPS_RESULT] = self._data.orders[self._username].get(
             ATTR_HTTPS_RESULT, 'Unknown')

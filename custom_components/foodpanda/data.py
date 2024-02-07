@@ -377,10 +377,11 @@ class foodpandaData():
                 res = {"data": response.text}
 
             data = res.get('data', {})
+            self.orders[self._username] = {}
             if len(data) >= 1:
                 for item in data['items']:
-                    if item['current_status']['type'] != "final":
-                        orders.append[item]
+                    if (item['current_status']['code'] != 16 and item['current_status']['code'] != 13):
+                        orders.append(item)
                         _LOGGER.error(f"get order {item['order_code']} {item['current_status']}")
             self.orders[self._username][ATTR_HTTPS_RESULT] = response.status
         else:
@@ -426,6 +427,7 @@ class foodpandaData():
             _LOGGER.error("Failed fetching data for %s", self._username)
             return
         data = {}
+
         if response.status == HTTPStatus.OK:
             try:
                 res = await response.json()
