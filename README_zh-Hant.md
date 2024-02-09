@@ -9,7 +9,7 @@ Home assistant for foodpanda
 
 你可以使用 [HACS](https://hacs.xyz/) 來安裝此整合元件. 步驟如下 custom repo: HACS > Integrations > 3 dots (upper top corner) > Custom repositories > URL: `tsunglung/foodpanda` > Category: Integration
 
-或是手動複製 `uber_eats` 到你的設定資料夾 (像是 /config) 下的 `custom_components` 目錄.
+或是手動複製 `foodpanda` 到你的設定資料夾 (像是 /config) 下的 `custom_components` 目錄.
 
 然後重新啟動 HA.
 
@@ -24,7 +24,7 @@ Home assistant for foodpanda
 3. 如果輸入都正確，就可以創建自動化，廣播外送進度到通訊軟體和 HomePod mini。
 
 # 注意
-只支援帳號和密碼，不支援 Facebook 和 Google 方式登入.
+使用 Facebook 和 Google 方式登入，需要截取 Tokens.
 
 打賞
 

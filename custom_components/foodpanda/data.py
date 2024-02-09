@@ -382,7 +382,6 @@ class foodpandaData():
                 for item in data['items']:
                     if (item['current_status']['code'] != 16 and item['current_status']['code'] != 13):
                         orders.append(item)
-                        _LOGGER.error(f"get order {item['order_code']} {item['current_status']}")
             self.orders[self._username][ATTR_HTTPS_RESULT] = response.status
         else:
             info = ""
@@ -479,6 +478,8 @@ class foodpandaData():
 
             data = await self.async_check_order_history()
             if len(data) < 1:
+                self.new_order = False
+                self.ordered = False
                 return self
 
             if len(data) >= 1:
@@ -487,7 +488,4 @@ class foodpandaData():
                 self.orders[self._username][FOODPANDA_ORDERS] = []
                 for order in data:
                     await self.async_order_tracking(order['order_code'])
-            else:
-                self.new_order = False
-                self.ordered = False
         return self

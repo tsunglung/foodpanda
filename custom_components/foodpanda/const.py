@@ -61,3 +61,18 @@ LOCALCODES = {
     "en": "America/Los_Angeles",
     "tw": "Asia/Taipei"
 }
+
+LANGUAGE_TRANSLATIONS = {
+    "en": {
+        "shop.order.status.message_awaiting_vendor_confirmation": "Awaiting vendor confirmation",
+        "shop.order.status.message_order_accepted_by_vendor": "Order accepted by vendor",
+        "shop.order.status.message_order_picked_by_rider": "Order picked by rider",
+        "shop.order.status.message_order_rider_arrived": "Order rider arrvied"
+    },
+    "tw": {
+        "shop.order.status.message_awaiting_vendor_confirmation": "\u8a02\u55ae\u6b63\u5728\u6e96\u5099\u4e2d\u3002",
+        "shop.order.status.message_order_accepted_by_vendor": "\u9910\u5ef3\u5df2\u63a5\u53d7\u8a02\u55ae",
+        "shop.order.status.message_order_picked_by_rider": "\u6b63\u524d\u5f80\u9818\u53d6\u8a02\u55ae\u3002",
+        "shop.order.status.message_order_rider_arrived": "\u5373\u5c07\u62b5\u9054\u3002"
+    }
+}

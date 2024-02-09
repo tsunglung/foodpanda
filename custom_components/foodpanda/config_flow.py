@@ -228,7 +228,6 @@ class OptionsFlowHandler(OptionsFlow):
             step_id="cloud",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_USERNAME, default=self._username): str,
                     vol.Required(CONF_PASSWORD, default=self._password): str,
                     vol.Required(CONF_LOCALCODE, default=self._localcode): vol.In(
                         list(LOCALCODES.keys())
@@ -268,7 +267,6 @@ class OptionsFlowHandler(OptionsFlow):
             step_id=CONF_TOKEN,
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_USERNAME, default=self._username): str,
                     vol.Required(CONF_TOKEN, default=self._token): str,
                     vol.Required(CONF_DEVICE_TOKEN, default=self._device_token): str,
                     vol.Required(CONF_REFRESH_TOKEN, default=self._refresh_token): str,

@@ -45,7 +45,6 @@
             "cloud": {
                 "title": "foodpanda",
                 "data": {
-                    "username": "Username",
                     "password": "Password",
                     "localcode": "Local Code",
                     "x_device": "x_device"
@@ -54,7 +53,6 @@
             "token": {
                 "title": "foodpanda",
                 "data": {
-                    "username": "Username",
                     "token": "Token",
                     "device_token": "Device Token",
                     "refresh_token": "Refresh Token",

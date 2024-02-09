@@ -24,12 +24,13 @@ from .const import (
     ATTR_LONGITUDE,
     ATTR_HTTPS_RESULT,
     ATTR_LIST,
-    BASE_URL,
+    CONF_LOCALCODE,
     DEFAULT_NAME,
     DOMAIN,
     FOODPANDA_DATA,
     FOODPANDA_COORDINATOR,
     FOODPANDA_ORDERS,
+    LANGUAGE_TRANSLATIONS,
     MANUFACTURER
 )
 
@@ -43,14 +44,16 @@ async def async_setup_entry(
 
     if config.data.get(CONF_USERNAME, None):
         username = config.data[CONF_USERNAME]
+        localcode = config.data[CONF_LOCALCODE]
     else:
         username = config.options[CONF_USERNAME]
+        localcode = config.options[CONF_LOCALCODE]
 
     data = hass.data[DOMAIN][config.entry_id][FOODPANDA_DATA]
     data.expired = False
     data.ordered = False
     coordinator = hass.data[DOMAIN][config.entry_id][FOODPANDA_COORDINATOR]
-    device = foodpandaSensor(username, data, coordinator)
+    device = foodpandaSensor(username, localcode, data, coordinator)
 
     async_add_devices([device], update_before_add=True)
 
@@ -58,7 +61,7 @@ async def async_setup_entry(
 class foodpandaSensor(SensorEntity):
     """Implementation of a foodpanda sensor."""
 
-    def __init__(self, username, data, coordinator):
+    def __init__(self, username, localcode, data, coordinator):
         """Initialize the sensor."""
         self._state = None
         self._data = data
@@ -68,7 +71,7 @@ class foodpandaSensor(SensorEntity):
         self._name = "{} {}".format(DEFAULT_NAME, username)
         self._username = username
 
-        self.uri = BASE_URL
+        self._localcode = localcode
 
     @property
     def unique_id(self):
@@ -99,6 +102,7 @@ class foodpandaSensor(SensorEntity):
     @property
     def extra_state_attributes(self):
         """Return extra attributes."""
+        self._attributes = {}
         self._attributes[ATTR_ATTRIBUTION] = ATTRIBUTION
         for k, _ in self._attr_value.items():
             self._attributes[k] = self._attr_value[k]
@@ -136,14 +140,20 @@ class foodpandaSensor(SensorEntity):
                 self._state = len(orders)
                 index = 0
                 if len(orders) >= 1:
+                    if self._localcode in LANGUAGE_TRANSLATIONS:
+                        translations = LANGUAGE_TRANSLATIONS[self._localcode]
+                    else:
+                        translations = LANGUAGE_TRANSLATIONS["en"]
+
                     for order in orders:
                         if index == 0:
                             if "eta" in order:
                                 self._attr_value[ATTR_ETA] = order['eta']
                             if "current_status" in order:
-                                self._attr_value[ATTR_TITLE_SUMMARY] = order['current_status']['message']
+                                msg = order['current_status']['message']
+                                self._attr_value[ATTR_TITLE_SUMMARY] = translations.get(msg, msg)
                             if "delivery_time_range" in order:
-                                ss = "{} {} {}".format(
+                                ss = "{} {} {}".format(
                                     order['delivery_time_range']['label'], order['delivery_time_range']['range'], order['delivery_time_range']['suffix'])
                                 self._attr_value[ATTR_SUBTITLE_SUMMARY] = ss
                             if "vendor" in order:
@@ -155,16 +165,17 @@ class foodpandaSensor(SensorEntity):
                                 )
                                 self._attr_value[ATTR_COURIER_NAME] = name
                                 self._attr_value[ATTR_COURIER_PHONE] = order['courier']['phone']
-                                self._attr_value[ATTR_LATITUDE] = order['courier']['latitude']
-                                self._attr_value[ATTR_LONGITUDE] = order['courier']['longitude']
+                                self._attr_value[ATTR_LATITUDE] = str(order['courier']['latitude'])
+                                self._attr_value[ATTR_LONGITUDE] = str(order['courier']['longitude'])
                         if index >= 1:
                             if "eta" in order:
                                 self._attr_value[f"{ATTR_ETA}_{index + 1}"] = order['eta']
                             if "current_status" in order:
-                                self._attr_value[f"{ATTR_TITLE_SUMMARY}_{index + 1}"] = order['current_status']['message']
+                                msg = order['current_status']['message']
+                                self._attr_value[ATTR_TITLE_SUMMARY] = translations.get(msg, msg)
                             if "delivery_time_range" in order:
                                 ss = "{} {} {}".format(
-                                    order['delivery_time_range']['label'], order['delivery_time_range']['range'], order['delivery_time_rang']['suffix'])
+                                    order['delivery_time_range']['label'], order['delivery_time_range']['range'], order['delivery_time_range']['suffix'])
                                 self._attr_value[f"{ATTR_SUBTITLE_SUMMARY}_{index + 1}"] = ss
                             if "vendor" in order:
                                 self._attr_value[f"{ATTR_RESTAURANT_NAME}_{index + 1}"] = order['vendor']['name']
@@ -175,8 +186,8 @@ class foodpandaSensor(SensorEntity):
                                 )
                                 self._attr_value[f"{ATTR_COURIER_NAME}_{index + 1}"] =  name
                                 self._attr_value[f"{ATTR_COURIER_PHONE}_{index + 1}"] = order['courier']['phone']
-                                self._attr_value[f"{ATTR_LATITUDE}_{index + 1}"] = order['courier']['latitude']
-                                self._attr_value[f"{ATTR_LONGITUDE}_{index + 1}"] = order['courier']['longitude']
+                                self._attr_value[f"{ATTR_LATITUDE}_{index + 1}"] = str(order['courier']['latitude'])
+                                self._attr_value[f"{ATTR_LONGITUDE}_{index + 1}"] = str(order['courier']['longitude'])
                         index = index + 1
 
         except Exception as e:

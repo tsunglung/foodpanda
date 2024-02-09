@@ -1,18 +1,21 @@
 """The foodpanda integration."""
 import asyncio
 import logging
+from datetime import datetime
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.storage import Store
 from homeassistant.const import CONF_USERNAME, CONF_PASSWORD, CONF_TOKEN
 
 from .const import (
     CONF_LOCALCODE,
     CONF_DEVICE_TOKEN,
     CONF_REFRESH_TOKEN,
+    CONF_TOKEN_TIMEOUT,
     CONF_X_DEVICE,
     DEFAULT_SCAN_INTERVAL,
     DEFAULT_LOCALCODE,
@@ -50,7 +53,21 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
 
     session = async_get_clientsession(hass)
 
-    foodpanda_data = foodpandaData(hass, session, login_info)
+    store = Store(hass, 1, f"{DOMAIN}/tokens.json")
+    data = await store.async_load() or None
+    if data:
+        tokens = data.get(username, {})
+    token_timeout = int(tokens.get(CONF_TOKEN_TIMEOUT, 0))
+    now = datetime.now().timestamp()
+
+    if (0 < int(token_timeout - now) < 3600):
+        tokens[CONF_USERNAME] = username
+        tokens[CONF_PASSWORD] = _get_config_value(config_entry, CONF_PASSWORD, "")
+        tokens[CONF_LOCALCODE] = _get_config_value(config_entry, CONF_X_DEVICE, DEFAULT_X_DEVICE)
+        tokens[CONF_X_DEVICE] = _get_config_value(config_entry, CONF_X_DEVICE, DEFAULT_X_DEVICE)
+        foodpanda_data = foodpandaData(hass, session, tokens)
+    else:
+        foodpanda_data = foodpandaData(hass, session, login_info)
 
     foodpanda_coordinator = DataUpdateCoordinator(
         hass,
