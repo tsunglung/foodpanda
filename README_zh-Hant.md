@@ -30,4 +30,4 @@ Home assistant for foodpanda
 
 |  LINE Pay | LINE Bank | JKao Pay |
 | :------------: | :------------: | :------------: |
-| <img src="https://github.com/tsunglung/UberEats/blob/master/linepay.jpg" alt="Line Pay" height="200" width="200">  | <img src="https://github.com/tsunglung/UberEats/blob/master/linebank.jpg" alt="Line Bank" height="200" width="200">  | <img src="https://github.com/tsunglung/UberEats/blob/master/jkopay.jpg" alt="JKo Pay" height="200" width="200">  |
+| <img src="https://github.com/tsunglung/foodpanda/blob/master/linepay.jpg" alt="Line Pay" height="200" width="200">  | <img src="https://github.com/tsunglung/foodpanda/blob/master/linebank.jpg" alt="Line Bank" height="200" width="200">  | <img src="https://github.com/tsunglung/foodpanda/blob/master/jkopay.jpg" alt="JKo Pay" height="200" width="200">  |

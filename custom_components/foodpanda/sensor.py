@@ -132,6 +132,7 @@ class foodpandaSensor(SensorEntity):
         """Schedule a custom update via the common entity update service."""
         await self._coordinator.async_request_refresh()
 
+        self._attr_value = {}
         for i in ATTR_LIST:
             self._attr_value[i] = ''
         try:
@@ -172,7 +173,7 @@ class foodpandaSensor(SensorEntity):
                                 self._attr_value[f"{ATTR_ETA}_{index + 1}"] = order['eta']
                             if "current_status" in order:
                                 msg = order['current_status']['message']
-                                self._attr_value[ATTR_TITLE_SUMMARY] = translations.get(msg, msg)
+                                self._attr_value[f"ATTR_TITLE_SUMMARY}_{index + 1}"] = translations.get(msg, msg)
                             if "delivery_time_range" in order:
                                 ss = "{} {} {}".format(
                                     order['delivery_time_range']['label'], order['delivery_time_range']['range'], order['delivery_time_range']['suffix'])

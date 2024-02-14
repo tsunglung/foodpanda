@@ -3,7 +3,7 @@ from datetime import timedelta
 
 DEFAULT_NAME = "foodpanda"
 DOMAIN = "foodpanda"
-PLATFORMS = [ "binary_sensor", "button", "sensor" ]
+PLATFORMS = [ "binary_sensor", "button", "device_tracker", "sensor" ]
 DATA_KEY = "data_foodpanda"
 
 ATTR_ETA = "eta"
