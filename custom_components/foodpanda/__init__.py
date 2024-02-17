@@ -63,7 +63,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     if (0 < int(token_timeout - now) < 3600):
         tokens[CONF_USERNAME] = username
         tokens[CONF_PASSWORD] = _get_config_value(config_entry, CONF_PASSWORD, "")
-        tokens[CONF_LOCALCODE] = _get_config_value(config_entry, CONF_X_DEVICE, DEFAULT_X_DEVICE)
+        tokens[CONF_LOCALCODE] = _get_config_value(config_entry, CONF_LOCALCODE, CONF_LOCALCODE)
         tokens[CONF_X_DEVICE] = _get_config_value(config_entry, CONF_X_DEVICE, DEFAULT_X_DEVICE)
         foodpanda_data = foodpandaData(hass, session, tokens)
     else:

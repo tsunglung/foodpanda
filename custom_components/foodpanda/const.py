@@ -52,14 +52,26 @@ DEFAULT_LOCALCODE = "tw"
 DEFAULT_X_DEVICE = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImtleW1ha2VyLXZvbG8tZGV2aWNlLWZwLXR3IiwidHlwIjoiSldUIn0.eyJpZCI6IjEzNTI4MjhjLWM0MTAtNDgyZi05ZjZkLTk2MGE4NDdiNzRkMCIsImNsaWVudF9pZCI6InZvbG8iLCJ1c2VyX2lkIjoidHdrMGNzcjMiLCJleHBpcmVzIjo0ODYwNDUyODYzLCJ0b2tlbl90eXBlIjoiYmVhcmVyIiwic2NvcGUiOiJERVZJQ0VfVE9LRU4ifQ.bNa-xs2e7LQcX9HkBNHQcwrc9m5JhV-34qXAaBvCT1yOV8fPT9udzXsRTXa1nt7Wx4l-oe58SKx-BGH5j75bJxgQRoZNl6oktaV_3M_GrjPLp4v1aqTQQCLVBhHbVfSn2Tm115M6WrfkG-paKgaBvwjqxKD2u3P7FniP5SnW8bchaph8t4hwlJOMbSC8vgIlyN0nCFUdjgWVEcil8MTkAndXE4OClx5_ebUo4mt5EiLeR8qiKTWgH0_aHmzu_kc9KX_lrHtQbyzDgsMjZiqSx8XdL4bOgNbKgUPqh3uaP6hvMtHdOepf3aCfrW7rMMQOLydXI5Kw2_dfasgoX-GDww"
 
 HA_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36"
-BASE_URL = 'https://www.foodpanda.com.tw/login/new/api'
-BASE_TW_URL = 'https://tw.fd-api.com/api/v5'
+
+LOGIN_URLS = {
+    "tw": 'https://www.foodpanda.com.tw/login/new/api',
+    "hk": 'https://www.foodpanda.hk/login/new/api',
+    "sg": 'https://www.foodpanda.sg/login/new/api'
+}
+
+BASE_URLS = {
+    "tw": 'https://tw.fd-api.com/api/v5',
+    "hk": 'https://hk.fd-api.com/api/v5',
+    "sg": 'https://sg.fd-api.com/api/v5'
+}
 
 REQUEST_TIMEOUT = 10  # seconds
 
 LOCALCODES = {
-    "en": "America/Los_Angeles",
-    "tw": "Asia/Taipei"
+#    "en": "America/Los_Angeles",
+    "tw": "Asia/Taipei",
+    "hk": "Asia/Hong_Kong",
+    "sg": "Asia/Singapore"
 }
 
 LANGUAGE_TRANSLATIONS = {

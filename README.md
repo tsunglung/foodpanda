@@ -23,7 +23,7 @@ Then restart HA.
 1. With GUI. Configuration > Integration > Add Integration > foodpanda
    1. If the integration didn't show up in the list please REFRESH the page
    2. If the integration is still not in the list, you need to clear the browser cache.
-2. Enter the account and password.
+2. Enter the account and password or enter tokens if use Facebook or Google login (For Hongkong, only tokens method).
 3. The x-device field is optional.
 
 # Notice

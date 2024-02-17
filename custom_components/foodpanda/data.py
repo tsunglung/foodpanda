@@ -25,8 +25,8 @@ from homeassistant.const import (
 )
 from .const import (
     ATTR_HTTPS_RESULT,
-    BASE_URL,
-    BASE_TW_URL,
+    LOGIN_URLS,
+    BASE_URLS,
     CONF_CLIENTID,
     CONF_LOCALCODE,
     CONF_DEVICE_TOKEN,
@@ -61,7 +61,7 @@ class foodpandaData():
         self.expired = False
         self.ordered = False
         self.new_order = False
-        self.uri = BASE_TW_URL
+        self.uri = BASE_URLS.get(self._localcode, BASE_URLS["tw"])
         self.orders[login_info[CONF_USERNAME]] = {}
         self._last_check = datetime.now().timestamp()
         self._token = login_info[CONF_TOKEN]
@@ -110,7 +110,7 @@ class foodpandaData():
         try:
             response = await self._session.request(
                 METH_POST,
-                url=f"{BASE_URL}/login",
+                url=f"{LOGIN_URLS['tw']}/login",
                 data=json.dumps(payload),
                 headers=headers,
                 timeout=REQUEST_TIMEOUT
@@ -167,10 +167,11 @@ class foodpandaData():
             'x-otp-method': 'EMAIL',
         }
 
+        uri = LOGIN_URLS.get(self._localcode, LOGIN_URLS["tw"])
         try:
             response = await self._session.request(
                 METH_POST,
-                url=f"{BASE_URL}/refresh-token",
+                url=f"{uri}/refresh-token",
                 data=json.dumps(payload),
                 headers=headers,
                 timeout=REQUEST_TIMEOUT
@@ -199,6 +200,7 @@ class foodpandaData():
                         tzinfo=pytz.timezone('Etc/GMT0')).timestamp())
             except:
                 pass
+            return True
         else:
             info = ""
             self.orders[self._username][ATTR_HTTPS_RESULT] = response.status
@@ -210,6 +212,7 @@ class foodpandaData():
                 response.status,
                 info
             )
+        return False
 
     async def async_load_tokens(self) -> dict:
         """
@@ -225,7 +228,8 @@ class foodpandaData():
                 CONF_CLIENTID: self._clientid,
                 CONF_SESSIONID: self._sessionid,
                 CONF_USERSOURCE: self._usersource,
-                CONF_X_DEVICE: self._x_device
+                CONF_X_DEVICE: self._x_device,
+                CONF_LOCALCODE: self._localcode
             }
 
         default = {
@@ -253,7 +257,8 @@ class foodpandaData():
                 CONF_X_DEVICE: self._x_device,
                 CONF_CLIENTID: self._clientid,
                 CONF_SESSIONID: self._sessionid,
-                CONF_USERSOURCE: self._usersource
+                CONF_USERSOURCE: self._usersource,
+                CONF_LOCALCODE: self._localcode
             }
             data[self._username] = tokens
 
@@ -307,6 +312,8 @@ class foodpandaData():
 
         if ((int(timeout - now) < 86400) and
                 len(self._password) >= 1):
+            if self._localcode in ["hk", "sg"]:
+                return False
             await self.async_login()
             if len(self._token) < 1:
                 return False
@@ -320,14 +327,17 @@ class foodpandaData():
                 CONF_CLIENTID: self._clientid,
                 CONF_SESSIONID: self._sessionid,
                 CONF_USERSOURCE: self._usersource,
-                CONF_X_DEVICE: self._x_device
+                CONF_X_DEVICE: self._x_device,
+                CONF_LOCALCODE: self._localcode
             })
 
         timeout = token_timeout
 
         if ((int(timeout - now) < 600) and
                 not updated_refresh_token):
-            await self.async_refresh_token()
+            ret = await self.async_refresh_token()
+            if not ret:
+                return False
             await self.async_store_tokens({
                 CONF_TOKEN: self._token,
                 CONF_DEVICE_TOKEN: self._device_token,
@@ -337,7 +347,8 @@ class foodpandaData():
                 CONF_CLIENTID: self._clientid,
                 CONF_SESSIONID: self._sessionid,
                 CONF_USERSOURCE: self._usersource,
-                CONF_X_DEVICE: self._x_device
+                CONF_X_DEVICE: self._x_device,
+                CONF_LOCALCODE: self._localcode
             })
 
         self.username = self._username
@@ -359,7 +370,7 @@ class foodpandaData():
         try:
             response = await self._session.request(
                 METH_GET,
-                url=f"{BASE_TW_URL}/orders/order_history?include=order_products",
+                url=f"{self.uri}/orders/order_history?include=order_products",
                 data=json.dumps(payload),
                 headers=headers,
                 timeout=REQUEST_TIMEOUT
@@ -415,7 +426,7 @@ class foodpandaData():
         try:
             response = await self._session.request(
                 METH_GET,
-                url=f"{BASE_TW_URL}/tracking/orders/{order_code}",
+                url=f"{self.uri}/tracking/orders/{order_code}",
                 data=json.dumps(payload),
                 params=params,
                 headers=headers,
