@@ -159,7 +159,7 @@ class foodpandaSensor(SensorEntity):
                                 self._attr_value[ATTR_SUBTITLE_SUMMARY] = ss
                             if "vendor" in order:
                                 self._attr_value[ATTR_RESTAURANT_NAME] = order['vendor']['name']
-                            if order.get('courier', {}) != None:
+                            if 'courier' in order and isinstance(order['courier'], dict):
                                 self._attr_value[ATTR_COURIER_DESCRIPTION] = order['courier']['vehicle_type']
                                 name = "{} ({})".format(
                                     order['courier']['name'], order['courier']['id']
@@ -180,7 +180,7 @@ class foodpandaSensor(SensorEntity):
                                 self._attr_value[f"{ATTR_SUBTITLE_SUMMARY}_{index + 1}"] = ss
                             if "vendor" in order:
                                 self._attr_value[f"{ATTR_RESTAURANT_NAME}_{index + 1}"] = order['vendor']['name']
-                            if order.get('courier', {}) != None:
+                            if 'courier' in order and isinstance(order['courier'], dict):
                                 self._attr_value[f"{ATTR_COURIER_DESCRIPTION}_{index + 1}"] = order['courier']['vehicle_type']
                                 name = "{} ({})".format(
                                     order['courier']['name'], order['courier']['id']
