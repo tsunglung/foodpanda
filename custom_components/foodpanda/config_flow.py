@@ -120,7 +120,7 @@ class foodpandaFlowHandler(ConfigFlow, domain=DOMAIN):
                 vol.Required(CONF_LOCALCODE, default=DEFAULT_LOCALCODE): vol.In(
                     list(LOCALCODES.keys())
                 ),
-                vol.Optional(CONF_X_DEVICE, default=''): str
+                vol.Required(CONF_X_DEVICE, default=''): str
             }
         )
 
@@ -232,7 +232,7 @@ class OptionsFlowHandler(OptionsFlow):
                     vol.Required(CONF_LOCALCODE, default=self._localcode): vol.In(
                         list(LOCALCODES.keys())
                     ),
-                    vol.Optional(CONF_X_DEVICE, default=self._x_device): str
+                    vol.Required(CONF_X_DEVICE, default=self._x_device): str
                 }
             ),
             errors=errors

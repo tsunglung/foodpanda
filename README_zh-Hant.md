@@ -20,8 +20,9 @@ Home assistant for foodpanda
 1. 使用者介面, 設定 > 整合 > 新增整合 > foodpanda
    1. 如果整合沒有出在清單裡，請重新整理網頁
    2. 如果重新整理網頁後，整合還是沒有出在清單裡，請您清除瀏覽器的快取
-2. 輸入 帳號和密碼 或是 輸入 tokens 如果是用 Fackbook 或 Google 登入 (香港只能用 token 方法)
-3. 如果輸入都正確，就可以創建自動化，廣播外送進度到通訊軟體和 HomePod mini。
+2. 輸入 帳號和密碼 或是 輸入 tokens 如果是用 Fackbook 或 Google 登入 (香港/新加坡只能用 token 方法)
+3. 如果是使用帳號/密碼登入，x-device 欄位是必要的. 你可以依照 [obtain_token](https://github.com/tsunglung/foodpanda/blob/master/docs/obtain_token.md#obtain-x-device) 取得 x-device 的值
+4. 如果輸入都正確，就可以創建自動化，廣播外送進度到通訊軟體和 HomePod mini。
 
 # 注意
 使用 Facebook 和 Google 方式登入，需要截取 Tokens.
