@@ -13,7 +13,7 @@ from aiohttp.hdrs import (
     METH_POST,
     USER_AGENT 
 )
-import pytz
+from dateutil import tz as timezone
 
 from homeassistant.helpers.storage import Store
 from homeassistant.const import (
@@ -132,9 +132,9 @@ class foodpandaData():
             self._usersource = cookies.get("userSource", {}).get("userSource", self._usersource)
             try:
                 self._token_timeout = int(datetime.strptime(
-                    self._token_timeout, "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=pytz.timezone('Etc/GMT0')).timestamp())
+                    self._token_timeout, "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=timezone.gettz('Etc/GMT0')).timestamp())
                 self._refresh_token_timeout = int(datetime.strptime(
-                    self._refresh_token_timeout, "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=pytz.timezone('Etc/GMT0')).timestamp())
+                    self._refresh_token_timeout, "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=timezone.gettz('Etc/GMT0')).timestamp())
             except:
                 self._token_timeout = 1893459660
                 self._refresh_token_timeout = 1893459660
@@ -194,10 +194,10 @@ class foodpandaData():
 
             try:
                 self._token_timeout = int(datetime.strptime(
-                    self._token_timeout, "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=pytz.timezone('Etc/GMT0')).timestamp())
+                    self._token_timeout, "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=timezone.gettz('Etc/GMT0')).timestamp())
                 self._refresh_token_timeout = int(datetime.strptime(
                     self._refresh_token_timeout, "%a, %d %b %Y %H:%M:%S %Z").replace(
-                        tzinfo=pytz.timezone('Etc/GMT0')).timestamp())
+                        tzinfo=timezone.gettz('Etc/GMT0')).timestamp())
             except:
                 pass
             return True
